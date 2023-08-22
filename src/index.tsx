@@ -157,7 +157,7 @@ const OTPTextView: React.FC<OTPTextViewProps> = ({
     handleTextChange('');
     inputs.current[0]?.focus();
   };
- // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const setValue = (value: string, isPaste = false) => {
     const updatedOtpText = getOTPTextChunks(inputCount, inputCellLength, value);
     setOtpText(updatedOtpText);

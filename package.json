@@ -1,6 +1,6 @@
 {
   "name": "smh-rn-otp-textinput",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "smh-rn-otp-textinput",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

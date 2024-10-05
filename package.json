@@ -145,8 +145,5 @@
         }
       ]
     ]
-  },
-  "dependencies": {
-    "smh-rn-otp-textinput": "file:"
   }
 }

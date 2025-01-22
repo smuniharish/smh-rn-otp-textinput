@@ -1,47 +1,139 @@
-# smh-react-native-responsive-screen
+# smh-rn-otp-textinput
 
-smh-react-native-responsive-screen
+smh-rn-otp-textinput
 
 ## Installation
 ```sh
 # Expo
-npx expo install smh-react-native-responsive-screen
+npx expo install smh-rn-otp-textinput
 
 #React Native
-npm install --save smh-react-native-responsive-screen
+npm install --save smh-rn-otp-textinput
 ```
 
-# Examples
+## Props
 
-## 1. How to use with StyleSheet.create()
+The Following Props are applicable for the component along with **props supported by react native `TextInput` component**
+
+| Prop                 | Type   | Optional | Default      | Description                                                                            |
+| -------------------- | ------ | -------- | ------------ | -------------------------------------------------------------------------------------- |
+| defaultValue         | string | Yes      | ''           | Default Value that can be set based on OTP / Pin received from parent container.       |
+| handleTextChange     | func   | No       | n/a          | callback with concated string of all cells as argument.                                |
+| handleCellTextChange | func   | Yes      | n/a          | callback for text change in individual cell with cell text and cell index as arguments |
+| inputCount           | number | Yes      | 4            | Number of Text Input Cells to be present.                                              |
+| tintColor            | string | Yes      | #3CB371      | Color for Cell Border on being focused.                                                |
+| offTintColor         | string | Yes      | #DCDCDC      | Color for Cell Border Border not focused.                                              |
+| inputCellLength      | number | Yes      | 1            | Number of character that can be entered inside a single cell.                          |
+| containerStyle       | object | Yes      | {}           | style for overall container.                                                           |
+| textInputStyle       | object | Yes      | {}           | style for text input.                                                                  |
+| testIDPrefix         | string | Yes      | 'otp*input*' | testID prefix, the result will be `otp_input_0` until inputCount                       |
+| autoFocus            | bool   | Yes      | false        | Input should automatically get focus when the components loads                         |
+
+## Helper Functions
+Clearing and Setting values to component
+
 ```js
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'smh-react-native-responsive-screen';
-
-class Login extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.textWrapper}>
-          <Text style={styles.myText}>Login</Text>
-        </View>
-      </View>
-    );
-  }
+// using traditional ref
+clearText = () => {
+    this.otpInput.clear();
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-  textWrapper: {
-    height: hp('70%'), // 70% of height device screen
-    width: wp('80%')   // 80% of width device screen
-  },
-  myText: {
-    fontSize: hp('5%') // End result looks like the provided UI mockup
-  }
-});
+setText = () => {
+    this.otpInput.setValue("1234");
+}
 
-export default Login;
+render() {
+    return (
+        <View>
+            <OTPTextInput ref={e => (this.otpInput = e)} >
+            <Button title="clear" onClick={this.clearText}>
+        </View>
+    );
+}
+
+
 ```
+
+
+```js
+// hooks
+import React, { useRef } from 'react';
+
+const ParentComponent = () => {
+    let otpInput = useRef(null);
+
+    const clearText = () => {
+        otpInput.current.clear();
+    }
+
+    const setText = () => {
+        otpInput.current.setValue("1234");
+    }
+
+    return (
+        <View>
+            <OTPTextView ref={e => (otpInput = e)} >
+            <Button title="clear" onClick={clearText}>
+        </View>
+    );
+}
+
+```
+
+## Example
+
+```js
+
+import React, { useRef, useState } from 'react'
+import { OtpTextInput, StyleSheet } from '@/imports';
+import { useTheme } from '@/hooks';
+import { heightPercent, widthPercent } from '@/helpers/functions/responsive';
+import { debugLog } from '@/config/logsConfig';
+import {OTPTextView, OTPTextViewType} from 'smh-rn-otp-textinput';
+
+const OtpInput = () => {
+
+  const theme = useTheme();
+  const { colors, fontSizes, iconSizes } = theme
+
+  const styles = StyleSheet.create({
+    textInputContainer: {
+      marginVertical: 15,
+      justifyContent:'center',
+      padding:widthPercent(0.3)
+    },
+    roundedTextInput: {
+      borderRadius: 10,
+      borderWidth: 1,
+      width:widthPercent(6),
+      height:heightPercent(6),
+      margin:widthPercent(0.2)
+    },
+  })
+
+  const [otpInput, setOtpInput] = useState<string>("");
+  const input = useRef<OTPTextViewType>(null);
+  const handleCellTextChange = async (text: string, i: number) => {
+    debugLog('handleCellTextChange')
+  };
+  return (
+    <OTPTextView
+      handleCellTextChange={handleCellTextChange}
+      handleTextChange={setOtpInput}
+      inputCount={6}
+      keyboardType="numeric"
+      containerStyle={styles.textInputContainer}
+      textInputStyle={styles.roundedTextInput}
+      tintColor={colors.text}
+    />
+  );
+
+}
+
+export default OtpInput
+
+```
+
 And we're done 🎉
 ## Contributing
 
@@ -57,7 +149,7 @@ Thanks to the authors of these libraries for inspiration
 
 ## Note
 
-Inspired by [react-native-responsive-screen](https://www.npmjs.com/package/react-native-responsive-screen)
+Inspired by [react-native-otp-textinput](https://github.com/naveenvignesh5/react-native-otp-textinput#readme)
 
 ## Sponsor & Support
 

@@ -175,7 +175,7 @@
   "codegenConfig": {
     "name": "RNSmhReactNativeResponsiveScreenSpec",
     "type": "modules",
-    "jsSrcsDir": "src",
+    "jsSrcsDir": "lib",
     "outputDir": {
       "ios": "ios/generated",
       "android": "android/generated"

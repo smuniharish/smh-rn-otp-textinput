@@ -1,6 +1,6 @@
 {
   "name": "smh-rn-otp-textinput",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "smh-rn-otp-textinput",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
